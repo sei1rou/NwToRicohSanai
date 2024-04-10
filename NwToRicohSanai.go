@@ -2783,7 +2783,7 @@ func coursedConv(cd string, name string, age string) (string, string, error) {
 		}
 
 	case "98009001000024":
-		if name == "リコー_海外一時帰国(被扶養配偶者)" {
+		if name == "リコー_海外一時帰国（被扶養配偶者）" {
 			ricohCd = "52"
 			ricohName = "海外一時帰国(全年齢)"
 		} else {
@@ -2791,7 +2791,7 @@ func coursedConv(cd string, name string, age string) (string, string, error) {
 		}
 
 	case "98009001000025":
-		if name == "リコー_海外完全帰国(被扶養配偶者)" {
+		if name == "リコー_海外完全帰国（被扶養配偶者）" {
 			ricohCd = "53"
 			ricohName = "完全帰国時(全年齢)"
 		} else {
