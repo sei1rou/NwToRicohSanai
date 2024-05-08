@@ -105,20 +105,29 @@ func main() {
 		writeItems = append(writeItems, "RICOH")
 
 		// 団体コード名称
-		writeItems = append(writeItems, "リコー三愛グループ健康保険組合")
+		logWrite(logstr, requireChk(items[3], "所属名1"))
+		writeItems = append(writeItems, items[3]) // ←所属名1
 
 		// 事業所コード
-		logWrite(logstr, requireChk(items[4], "所属cd2"))
+		if items[0] != "04019001" { // （株）リコーは所属２をチェックしない
+			logWrite(logstr, requireChk(items[4], "所属cd2"))
+		}
 		writeItems = append(writeItems, items[4]) // ←所属cd2
 
 		// 事業所名称
-		logWrite(logstr, requireChk(items[5], "所属名2"))
+		if items[0] != "04019001" { // （株）リコーは所属２をチェックしない
+			logWrite(logstr, requireChk(items[5], "所属名2"))
+		}
 		writeItems = append(writeItems, items[5]) // ←所属名2
 
 		// 個人ID
-		str, err = kojinIdChk(items[6])
-		logWrite(logstr, err)
-		writeItems = append(writeItems, str) // ←社員No
+		if items[0] != "04019001" { // （株）リコーは個人IDをチェックしない
+			str, err = kojinIdChk(items[6])
+			logWrite(logstr, err)
+			writeItems = append(writeItems, str) // ←社員No
+		} else {
+			writeItems = append(writeItems, items[6])
+		}
 
 		// 漢字氏名
 		logWrite(logstr, requireChk(items[7], "漢字氏名"))
@@ -141,15 +150,21 @@ func main() {
 		writeItems = append(writeItems, str)
 
 		// 保険者番号
-		logWrite(logstr, requireChk(items[12], "保険者番号"))
+		if items[0] != "04019001" { // （株）リコーは保健者番号をチェックしない
+			logWrite(logstr, requireChk(items[12], "保険者番号"))
+		}
 		writeItems = append(writeItems, items[12])
 
 		// 保険証記号
-		logWrite(logstr, requireChk(items[13], "保険証記号"))
+		if items[0] != "04019001" { // （株）リコーは保険証記号をチェックしない
+			logWrite(logstr, requireChk(items[13], "保険証記号"))
+		}
 		writeItems = append(writeItems, items[13])
 
 		// 保険証番号
-		logWrite(logstr, requireChk(items[14], "保険証番号"))
+		if items[0] != "04019001" { // （株）リコーは保険証番号をチェックしない
+			logWrite(logstr, requireChk(items[14], "保険証番号"))
+		}
 		writeItems = append(writeItems, items[14])
 
 		// 続柄
@@ -2797,6 +2812,23 @@ func coursedConv(cd string, name string, age string) (string, string, error) {
 		} else {
 			nameFlag = true
 		}
+
+	case "04019001000001":
+		if name == "リコー定期" {
+			ricohCd = "21"
+			ricohName = "定期健診(34歳以下)"
+		} else {
+			nameFlag = true
+		}
+
+	case "04019001000002":
+		if name == "リコー入社" {
+			ricohCd = "11"
+			ricohName = "雇入れ時健診"
+		} else {
+			nameFlag = true
+		}
+
 
 	default:
 		cdFlag = true
